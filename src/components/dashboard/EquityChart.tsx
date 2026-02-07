@@ -68,7 +68,10 @@ export default function EquityChart({ trades }: { trades?: any[] }) {
                         <Tooltip
                             contentStyle={{ backgroundColor: '#0F172A', borderColor: '#334155', color: '#fff' }}
                             itemStyle={{ color: '#3B82F6' }}
-                            formatter={(value: number) => [`$${value.toLocaleString()}`, "Equity"]}
+                            formatter={(value: number | undefined) => [
+                                value !== undefined ? `$${value.toLocaleString()}` : "$0",
+                                "Equity"
+                            ]}
                         />
                         <Area
                             type="monotone"

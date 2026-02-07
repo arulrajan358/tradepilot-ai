@@ -13,6 +13,7 @@ export default function DashboardLayout({
 
     // Format title from pathname
     const getTitle = () => {
+        if (!pathname) return "Dashboard";
         const segments = pathname.split('/').filter(Boolean);
         const lastSegment = segments[segments.length - 1];
         if (!lastSegment) return "Dashboard";

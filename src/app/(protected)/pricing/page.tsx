@@ -1,10 +1,14 @@
 "use client";
 
+import { useState } from "react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Check, Zap } from "lucide-react";
+import PaymentModal from "@/components/payment/PaymentModal";
 
 export default function PricingPage() {
+    const [showPaymentModal, setShowPaymentModal] = useState(false);
+
     return (
         <div className="max-w-5xl mx-auto space-y-8">
             <div className="text-center">
@@ -47,10 +51,18 @@ export default function PricingPage() {
                         <li className="flex items-center gap-3"><Zap size={16} className="text-brand-blue" /> Risk Analysis Engine</li>
                         <li className="flex items-center gap-3"><Zap size={16} className="text-brand-blue" /> Priority Support</li>
                     </ul>
-                    <Button variant="primary" className="w-full text-lg h-12">Upgrade to Pro</Button>
+                    <Button
+                        variant="primary"
+                        className="w-full text-lg h-12"
+                        onClick={() => setShowPaymentModal(true)}
+                    >
+                        Upgrade to Pro
+                    </Button>
                     <p className="text-center text-xs text-slate-500 mt-4">7-day money-back guarantee. Cancel anytime.</p>
                 </Card>
             </div>
+
+            <PaymentModal isOpen={showPaymentModal} onClose={() => setShowPaymentModal(false)} />
         </div>
     );
 }
