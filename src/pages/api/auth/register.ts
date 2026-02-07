@@ -48,6 +48,6 @@ export default async function handler(
         res.status(200).json({ message: "User registered successfully" });
     } catch (error) {
         console.error("Register API Error:", error);
-        res.status(500).json({ message: "Internal Server Error" });
+        res.status(500).json({ message: (error as Error).message || "Internal Server Error" });
     }
 }
