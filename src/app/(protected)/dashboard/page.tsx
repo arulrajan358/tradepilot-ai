@@ -8,6 +8,7 @@ import AIInsights from "@/components/dashboard/AIInsights";
 
 export default function DashboardPage() {
     const [trades, setTrades] = useState<any[]>([]);
+    const [news, setNews] = useState<any[]>([]);
     const [stats, setStats] = useState({
         winRate: 0,
         totalTrades: 0,
@@ -15,6 +16,12 @@ export default function DashboardPage() {
     });
 
     useEffect(() => {
+        // Fetch News
+        fetch("/api/news/forex-factory")
+            .then(res => res.json())
+            .then(data => setNews(data))
+            .catch(err => console.error("Failed to fetch news", err));
+
         const userStr = localStorage.getItem("user");
         if (!userStr) return;
 
@@ -61,22 +68,40 @@ export default function DashboardPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {/* Market Sentiment Widget */}
+                {/* High Impact News Widget */}
                 <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
-                    <h3 className="text-lg font-bold text-white mb-4">Market Sentiment</h3>
-                    <div className="flex items-center justify-between mb-2">
-                        <span className="text-slate-400">EUR/USD</span>
-                        <span className="text-green-500 font-bold">Bullish (65%)</span>
+                    <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                            High Impact News
+                        </h3>
+                        <span className="text-xs text-slate-500">Forex Factory</span>
                     </div>
-                    <div className="w-full bg-slate-800 rounded-full h-2 mb-4">
-                        <div className="bg-green-500 h-2 rounded-full" style={{ width: "65%" }}></div>
-                    </div>
-                    <div className="flex items-center justify-between mb-2">
-                        <span className="text-slate-400">BTC/USD</span>
-                        <span className="text-red-500 font-bold">Bearish (40%)</span>
-                    </div>
-                    <div className="w-full bg-slate-800 rounded-full h-2">
-                        <div className="bg-red-500 h-2 rounded-full" style={{ width: "60%" }}></div>
+
+                    <div className="space-y-4">
+                        {news.length > 0 ? (
+                            news.map((item, i) => (
+                                <div key={i} className="flex items-center justify-between border-b border-slate-800/50 pb-2 last:border-0 last:pb-0">
+                                    <div className="flex items-center gap-3">
+                                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs bg-slate-800 text-slate-200`}>
+                                            {item.country}
+                                        </div>
+                                        <div>
+                                            <div className="text-white text-sm font-medium line-clamp-1">{item.title}</div>
+                                            <div className="text-xs text-slate-500">
+                                                {new Date(item.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="text-right">
+                                        <div className="text-xs font-mono text-slate-300">{item.forecast || "-"}</div>
+                                        <div className="text-[10px] text-slate-500 uppercase">Fcst</div>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="text-center text-slate-500 text-sm py-4">Loading news...</div>
+                        )}
                     </div>
                 </div>
 
