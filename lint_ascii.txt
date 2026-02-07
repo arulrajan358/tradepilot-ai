@@ -1,0 +1,48 @@
+
+> tradepilot-ai@0.1.0 lint
+> eslint
+
+
+C:\Users\Arulrajan\.gemini\antigravity\scratch\tradepilot-ai\src\app\(protected)\ai-insights\page.tsx
+  6:17  warning  'Search' is defined but never used      @typescript-eslint/no-unused-vars
+  6:40  warning  'TrendingUp' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\Arulrajan\.gemini\antigravity\scratch\tradepilot-ai\src\app\(protected)\settings\page.tsx
+  6:10  warning  'User' is defined but never used  @typescript-eslint/no-unused-vars
+  6:34  warning  'Bell' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\Arulrajan\.gemini\antigravity\scratch\tradepilot-ai\src\app\page.tsx
+   10:8   warning  'Image' is defined but never used                                @typescript-eslint/no-unused-vars
+  150:75  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Arulrajan\.gemini\antigravity\scratch\tradepilot-ai\src\components\Navbar.tsx
+   5:29  warning  'useTransform' is defined but never used      @typescript-eslint/no-unused-vars
+  11:13  warning  'scrollY' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\Arulrajan\.gemini\antigravity\scratch\tradepilot-ai\src\components\auth\LoginForm.tsx
+  77:20  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Arulrajan\.gemini\antigravity\scratch\tradepilot-ai\src\components\auth\RegisterForm.tsx
+  6:10  warning  'User' is defined but never used  @typescript-eslint/no-unused-vars
+  6:16  warning  'Mail' is defined but never used  @typescript-eslint/no-unused-vars
+  6:22  warning  'Lock' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\Arulrajan\.gemini\antigravity\scratch\tradepilot-ai\src\components\dashboard\AIInsights.tsx
+  4:45  warning  'TrendingUp' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\Arulrajan\.gemini\antigravity\scratch\tradepilot-ai\src\components\dashboard\Header.tsx
+  3:24  warning  'User' is defined but never used   @typescript-eslint/no-unused-vars
+  5:10  warning  'Input' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\Arulrajan\.gemini\antigravity\scratch\tradepilot-ai\src\components\dashboard\Sidebar.tsx
+  6:18  warning  'AnimatePresence' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\Arulrajan\.gemini\antigravity\scratch\tradepilot-ai\src\components\dashboard\StatsCards.tsx
+  3:10  warning  'motion' is defined but never used        @typescript-eslint/no-unused-vars
+  4:22  warning  'TrendingDown' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\Arulrajan\.gemini\antigravity\scratch\tradepilot-ai\src\components\ui\Card.tsx
+  5:10  warning  'split' is defined but never used  @typescript-eslint/no-unused-vars
+
+??? 19 problems (2 errors, 17 warnings)
+
