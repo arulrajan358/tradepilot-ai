@@ -2,21 +2,27 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, TrendingUp, Brain, CreditCard, Settings, LogOut, Menu, Newspaper, PlusCircle, Link as LinkIcon, BookOpen } from "lucide-react";
+import { LayoutDashboard, TrendingUp, Brain, CreditCard, Settings, LogOut, Menu, Newspaper, PlusCircle, Link as LinkIcon, BookOpen, ShieldCheck, Layers, Calendar, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 const navItems = [
-    { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-    { name: "Analysis", href: "/analysis", icon: TrendingUp },
-    { name: "Trades", href: "/trades", icon: BookOpen },
-    { name: "News", href: "/news", icon: Newspaper },
+    { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
+    { name: "Risk Manager", href: "/dashboard/risk", icon: ShieldCheck }, // New
+    { name: "Journal", href: "/dashboard/journal", icon: BookOpen },
+    { name: "AI Coach", href: "/dashboard/ai-coach", icon: Brain }, // New
+    { name: "Prop Firm", href: "/dashboard/prop-firm", icon: TrendingUp }, // New
+    { name: "Liquidity", href: "/dashboard/liquidity", icon: Layers }, // New
+    { name: "News", href: "/dashboard/news", icon: Newspaper }, // Updated URL if needed, previously /news
+    { name: "Calendar", href: "/dashboard/calendar", icon: Calendar }, // New
+    { name: "AI Premium", href: "/dashboard/ai-premium", icon: Sparkles }, // New
     { name: "Connect Broker", href: "/connect-broker", icon: LinkIcon },
-    { name: "AI Insights", href: "/ai-insights", icon: Brain },
     { name: "Settings", href: "/settings", icon: Settings },
 ];
+
+/* Note: Ensure imports include these icons: ShieldCheck, Layers, Calendar, Sparkles */
 
 export default function Sidebar() {
     const pathname = usePathname();
