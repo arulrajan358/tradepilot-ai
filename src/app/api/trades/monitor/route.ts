@@ -20,26 +20,36 @@ export async function GET(request: Request) {
         if (error) throw error;
         if (!trades || trades.length === 0) return NextResponse.json([]);
 
-        // 2. Get live prices (Simpler: just fetch BTC for now, or loop if multiple pairs)
-        // For this MVP, we will assume most trades are BTC/USDT or ETH/USDT
-        // We will fetch BTC price from Binance
-        const priceRes = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT');
-        const priceData = await priceRes.json();
-        const btcPrice = parseFloat(priceData.price);
+        // 2. Get live prices
+        // Optimized: Fetch once for BTC (since most are BTC). 
+        // In a real app, we'd collect all unique symbols and fetch their prices.
+        let btcPrice = 0;
+        try {
+            const priceRes = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT');
+            const priceData = await priceRes.json();
+            btcPrice = parseFloat(priceData.price);
+        } catch (e) {
+            console.error("Failed to fetch BTC price", e);
+        }
 
         // 3. Calculate P/L
         const monitoredTrades = trades.map((trade: any) => {
             let currentPrice = trade.current_price;
 
-            // Update price if it matches our fetched symbol (naive implementation for MVP)
-            if (trade.pair === 'BTC/USDT' || trade.pair === 'BTCUSD') {
+            // Update price if it matches our fetched symbol
+            // Handling common formats: BTC/USDT, BTCUSDT
+            const pair = trade.pair.replace('/', '').toUpperCase();
+
+            if (pair === 'BTCUSDT' && btcPrice > 0) {
                 currentPrice = btcPrice;
             }
 
-            // If we don't have a live price source for the pair, use the stored current_price or entry_price
+            // Fallback if no live price
             if (!currentPrice) currentPrice = trade.entry_price;
 
-            const profitPercent = ((currentPrice - trade.entry_price) / trade.entry_price) * 100;
+            // Calculate Profit %: ((Current - Entry) / Entry) * 100
+            const entryPrice = parseFloat(trade.entry_price);
+            const profitPercent = ((currentPrice - entryPrice) / entryPrice) * 100;
 
             let status = 'neutral';
             if (profitPercent > 0) status = 'profit';

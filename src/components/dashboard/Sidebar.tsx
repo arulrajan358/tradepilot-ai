@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, TrendingUp, Brain, CreditCard, Settings, LogOut, Menu, Newspaper } from "lucide-react";
+import { LayoutDashboard, TrendingUp, Brain, CreditCard, Settings, LogOut, Menu, Newspaper, PlusCircle, Link as LinkIcon, BookOpen } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
@@ -10,10 +10,11 @@ import Image from "next/image";
 
 const navItems = [
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-    { name: "Trades", href: "/trades", icon: TrendingUp },
-    { name: "News", href: "/news", icon: Newspaper }, // Added News
+    { name: "Analysis", href: "/analysis", icon: TrendingUp },
+    { name: "Trades", href: "/trades", icon: BookOpen },
+    { name: "News", href: "/news", icon: Newspaper },
+    { name: "Connect Broker", href: "/connect-broker", icon: LinkIcon },
     { name: "AI Insights", href: "/ai-insights", icon: Brain },
-    { name: "Pricing", href: "/pricing", icon: CreditCard },
     { name: "Settings", href: "/settings", icon: Settings },
 ];
 

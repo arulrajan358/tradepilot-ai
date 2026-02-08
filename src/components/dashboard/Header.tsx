@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { Bell, Search, User, Settings, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 export default function Header({ title = "Dashboard" }: { title?: string }) {
     const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -39,21 +39,23 @@ export default function Header({ title = "Dashboard" }: { title?: string }) {
 
             <div className="flex items-center gap-4">
                 <div className="hidden md:block w-64">
-                    {/* Simple Search - functionality to be added later */}
+                    {/* Simple Search */}
                     <div className="relative">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
                         <input
                             type="text"
                             placeholder="Search..."
-                            className="w-full bg-slate-900 border border-slate-700 rounded-full py-1.5 pl-9 pr-4 text-sm text-white focus:outline-none focus:border-brand-blue"
+                            className="w-full bg-slate-900 border border-slate-800 rounded-full py-1.5 pl-9 pr-4 text-sm text-white focus:outline-none focus:border-brand-blue"
                         />
                     </div>
                 </div>
 
-                <Button variant="ghost" size="sm" className="relative text-slate-400 hover:text-white">
-                    <Bell size={20} />
-                    <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border border-brand-navy"></span>
-                </Button>
+                <div className="flex items-center gap-2">
+                    <Button variant="ghost" size="sm" className="relative text-slate-400 hover:text-white">
+                        <Bell size={20} />
+                        <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border border-brand-navy"></span>
+                    </Button>
+                </div>
 
                 <div className="relative" ref={profileRef}>
                     <button

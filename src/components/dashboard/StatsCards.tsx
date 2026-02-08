@@ -1,43 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { TrendingUp, TrendingDown, DollarSign, Activity, Percent } from "lucide-react";
+import { TrendingUp, DollarSign, Activity, Percent } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 
-const stats = [
-    {
-        title: "Total Profit",
-        value: "$12,450",
-        change: "+15.3%",
-        isPositive: true,
-        icon: DollarSign,
-        color: "text-brand-blue",
-    },
-    {
-        title: "Win Rate",
-        value: "68%",
-        change: "+2.1%",
-        isPositive: true,
-        icon: Percent,
-        color: "text-status-profit",
-    },
-    {
-        title: "Profit Factor",
-        value: "2.4",
-        change: "-0.5",
-        isPositive: false,
-        icon: Activity,
-        color: "text-brand-purple",
-    },
-    {
-        title: "Active Trades",
-        value: "3",
-        change: "Neutral",
-        isPositive: true,
-        icon: TrendingUp,
-        color: "text-status-warning",
-    },
-];
 
 export default function StatsCards({ stats }: { stats?: any }) {
     const displayStats = [
@@ -78,7 +43,7 @@ export default function StatsCards({ stats }: { stats?: any }) {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {displayStats.map((stat, index) => (
-                <Card key={index} hoverEffect className="relative overflow-hidden">
+                <Card key={index} hoverEffect className="relative overflow-hidden bg-brand-slate border-slate-800 shadow-xl shadow-black/20">
                     <div className="flex items-start justify-between">
                         <div>
                             <p className="text-slate-400 text-sm font-medium">{stat.title}</p>

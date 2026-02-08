@@ -2,11 +2,12 @@
 import { useEffect, useState } from "react";
 
 import StatsCards from "@/components/dashboard/StatsCards";
-import EquityChart from "@/components/dashboard/EquityChart";
-import RecentTrades from "@/components/dashboard/RecentTrades";
 import AIInsights from "@/components/dashboard/AIInsights";
 import LiveBitcoinPrice from "@/components/dashboard/LiveBitcoinPrice";
 import BrokerConnectModal from "@/components/dashboard/BrokerConnectModal";
+import TradingChart from "@/components/dashboard/TradingChart";
+import ActiveTradesPanel from "@/components/dashboard/ActiveTradesPanel";
+import MarketNewsWidget from "@/components/dashboard/MarketNewsWidget";
 
 export default function DashboardPage() {
     const [trades, setTrades] = useState<any[]>([]);
@@ -16,6 +17,16 @@ export default function DashboardPage() {
         totalTrades: 0,
         totalProfit: 0,
     });
+    const [activeSymbol, setActiveSymbol] = useState("BINANCE:BTCUSDT");
+
+    const pairs = [
+        { name: "BTC/USDT", symbol: "BINANCE:BTCUSDT" },
+        { name: "ETH/USDT", symbol: "BINANCE:ETHUSDT" },
+        { name: "EUR/USD", symbol: "FX:EURUSD" },
+        { name: "XAU/USD", symbol: "OANDA:XAUUSD" },
+        { name: "GBP/USD", symbol: "FX:GBPUSD" },
+        { name: "NDAQ100", symbol: "OANDA:NAS100USD" }
+    ];
 
     useEffect(() => {
         // Fetch News
@@ -61,85 +72,76 @@ export default function DashboardPage() {
     };
 
     return (
-        <div className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                <div className="lg:col-span-3">
-                    <StatsCards stats={stats} />
+        <div className="space-y-6 pb-8">
+            {/* Section 1: Account Overview */}
+            <StatsCards stats={stats} />
+
+            {/* Section 2: Main Trading Area */}
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-[500px]">
+                {/* Left: Chart (75%) */}
+                <div className="lg:col-span-3 h-full flex flex-col">
+                    {/* Chart Controls */}
+                    <div className="flex items-center gap-2 mb-2 overflow-x-auto pb-1 custom-scrollbar">
+                        {pairs.map((pair) => (
+                            <button
+                                key={pair.symbol}
+                                onClick={() => setActiveSymbol(pair.symbol)}
+                                className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors ${activeSymbol === pair.symbol
+                                    ? "bg-brand-blue text-white"
+                                    : "bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700"
+                                    }`}
+                            >
+                                {pair.name}
+                            </button>
+                        ))}
+                    </div>
+                    <div className="flex-1 min-h-0">
+                        <TradingChart symbol={activeSymbol} />
+                    </div>
                 </div>
-                <div className="lg:col-span-1">
+                {/* Right: Active Trades (25%) */}
+                <div className="lg:col-span-1 h-full">
+                    <ActiveTradesPanel />
+                </div>
+            </div>
+
+            {/* Section 3: Insights & News */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* AI Insights */}
+                <div className="h-full">
+                    <AIInsights trades={trades} />
+                </div>
+
+                {/* Market News */}
+                <div className="h-full">
+                    <MarketNewsWidget />
+                </div>
+            </div>
+
+            {/* Quick Actions & Live Price */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="md:col-span-1">
                     <LiveBitcoinPrice />
                 </div>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <EquityChart />
-                <AIInsights trades={trades} />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {/* High Impact News Widget */}
-                <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
-                    <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                            <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                            High Impact News
-                        </h3>
-                        <span className="text-xs text-slate-500">Forex Factory</span>
-                    </div>
-
-                    <div className="space-y-4">
-                        {news.length > 0 ? (
-                            news.map((item, i) => (
-                                <div key={i} className="flex items-center justify-between border-b border-slate-800/50 pb-2 last:border-0 last:pb-0">
-                                    <div className="flex items-center gap-3">
-                                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs bg-slate-800 text-slate-200`}>
-                                            {item.country}
-                                        </div>
-                                        <div>
-                                            <div className="text-white text-sm font-medium line-clamp-1">{item.title}</div>
-                                            <div className="text-xs text-slate-500">
-                                                {new Date(item.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="text-right">
-                                        <div className="text-xs font-mono text-slate-300">{item.forecast || "-"}</div>
-                                        <div className="text-[10px] text-slate-500 uppercase">Fcst</div>
-                                    </div>
-                                </div>
-                            ))
-                        ) : (
-                            <div className="text-center text-slate-500 text-sm py-4">Loading news...</div>
-                        )}
-                    </div>
-                </div>
-
-                {/* Quick Actions */}
-                <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
-                    <h3 className="text-lg font-bold text-white mb-4">Quick Actions</h3>
-                    <div className="space-y-3">
+                <div className="md:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-6">
+                    <div className="flex justify-between items-center mb-4">
+                        <h3 className="text-lg font-bold text-white">Quick Actions</h3>
                         <BrokerConnectModal />
-                        <div className="grid grid-cols-2 gap-3">
-                            <button className="p-3 bg-brand-blue/10 hover:bg-brand-blue/20 border border-brand-blue/30 rounded-lg text-brand-blue font-medium text-sm transition-colors text-center">
-                                + Log Trade
-                            </button>
-                            <button className="p-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-slate-300 font-medium text-sm transition-colors text-center">
-                                New Journal
-                            </button>
-                            <button className="p-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-slate-300 font-medium text-sm transition-colors text-center">
-                                Set Alert
-                            </button>
-                            <button className="p-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-slate-300 font-medium text-sm transition-colors text-center">
-                                Calculator
-                            </button>
-                        </div>
                     </div>
-                </div>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-3">
-                    <RecentTrades trades={trades} />
+                    <div className="grid grid-cols-4 gap-3">
+                        <button className="p-3 bg-brand-blue/10 hover:bg-brand-blue/20 border border-brand-blue/30 rounded-lg text-brand-blue font-medium text-sm transition-colors text-center">
+                            + Log Trade
+                        </button>
+                        <button className="p-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-slate-300 font-medium text-sm transition-colors text-center">
+                            New Journal
+                        </button>
+                        <button className="p-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-slate-300 font-medium text-sm transition-colors text-center">
+                            Set Alert
+                        </button>
+                        <button className="p-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-slate-300 font-medium text-sm transition-colors text-center">
+                            Calculator
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

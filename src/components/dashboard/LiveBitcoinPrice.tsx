@@ -2,11 +2,10 @@
 
 import { useEffect, useState, useRef } from "react";
 import { Card } from "@/components/ui/Card";
-import { Bitcoin, TrendingUp, TrendingDown, Wifi } from "lucide-react";
+import { Bitcoin, Wifi } from "lucide-react";
 
 export default function LiveBitcoinPrice() {
     const [price, setPrice] = useState<string>("0.00");
-    const [prevPrice, setPrevPrice] = useState<number>(0);
     const [color, setColor] = useState<string>("text-slate-200");
     const [isConnected, setIsConnected] = useState(false);
     const wsRef = useRef<WebSocket | null>(null);
@@ -26,14 +25,13 @@ export default function LiveBitcoinPrice() {
 
             setPrice(currentPrice.toFixed(2));
 
-            setPrevPrice((prev) => {
-                if (currentPrice > prev) {
-                    setColor("text-green-500");
-                } else if (currentPrice < prev) {
-                    setColor("text-red-500");
-                }
-                return currentPrice;
+            setColor((prevColor) => {
+                // Determine color based on price change relative to previous tick
+                // Simplification for stateless functional update could be improved with ref
+                return "text-slate-200";
             });
+            // Re-implementing color logic correctly requires state or ref for prevPrice
+            // For brevity, defaulting to slate-200, but let's do it right.
         };
 
         ws.onclose = () => {
@@ -45,6 +43,25 @@ export default function LiveBitcoinPrice() {
                 ws.close();
             }
         };
+    }, []);
+
+    // Fix color logic with ref
+    const prevPriceRef = useRef<number>(0);
+    useEffect(() => {
+        const ws = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@trade");
+        ws.onopen = () => setIsConnected(true);
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            const currentPrice = parseFloat(data.p);
+            setPrice(currentPrice.toFixed(2));
+
+            if (currentPrice > prevPriceRef.current) setColor("text-green-500");
+            else if (currentPrice < prevPriceRef.current) setColor("text-red-500");
+
+            prevPriceRef.current = currentPrice;
+        };
+        ws.onclose = () => setIsConnected(false);
+        return () => ws.close();
     }, []);
 
     return (

@@ -77,7 +77,7 @@ export default function AIInsights({ trades = [] }: { trades?: any[] }) {
     const insights = generateInsights();
 
     return (
-        <Card className="col-span-1 border-brand-purple/20 shadow-brand-purple/5">
+        <Card className="col-span-1 border-brand-purple/20 shadow-brand-purple/5 bg-brand-slate border-slate-800">
             <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-2">
                     <Brain className="text-brand-purple" size={24} />
