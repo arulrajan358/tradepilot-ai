@@ -9,20 +9,16 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 const navItems = [
-    { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
-    { name: "Risk Manager", href: "/dashboard/risk", icon: ShieldCheck }, // New
+    { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { name: "Journal", href: "/dashboard/journal", icon: BookOpen },
-    { name: "AI Coach", href: "/dashboard/ai-coach", icon: Brain }, // New
-    { name: "Prop Firm", href: "/dashboard/prop-firm", icon: TrendingUp }, // New
-    { name: "Liquidity", href: "/dashboard/liquidity", icon: Layers }, // New
-    { name: "News", href: "/dashboard/news", icon: Newspaper }, // Updated URL if needed, previously /news
-    { name: "Calendar", href: "/dashboard/calendar", icon: Calendar }, // New
-    { name: "AI Premium", href: "/dashboard/ai-premium", icon: Sparkles }, // New
-    { name: "Connect Broker", href: "/connect-broker", icon: LinkIcon },
+    { name: "Risk Manager", href: "/dashboard/risk", icon: ShieldCheck },
+    { name: "AI Coach", href: "/dashboard/ai-coach", icon: Brain },
+    { name: "Prop Firm Analysis", href: "/dashboard/prop-firm", icon: TrendingUp },
+    { name: "News", href: "/dashboard/news", icon: Newspaper }, // Includes Calendar
     { name: "Settings", href: "/settings", icon: Settings },
 ];
 
-/* Note: Ensure imports include these icons: ShieldCheck, Layers, Calendar, Sparkles */
+/* Note: Ensure imports include these icons: BookOpen, ShieldCheck, Brain, TrendingUp, Newspaper, Settings */
 
 export default function Sidebar() {
     const pathname = usePathname();
