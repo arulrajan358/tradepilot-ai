@@ -5,6 +5,8 @@ import StatsCards from "@/components/dashboard/StatsCards";
 import EquityChart from "@/components/dashboard/EquityChart";
 import RecentTrades from "@/components/dashboard/RecentTrades";
 import AIInsights from "@/components/dashboard/AIInsights";
+import LiveBitcoinPrice from "@/components/dashboard/LiveBitcoinPrice";
+import BrokerConnectModal from "@/components/dashboard/BrokerConnectModal";
 
 export default function DashboardPage() {
     const [trades, setTrades] = useState<any[]>([]);
@@ -60,7 +62,14 @@ export default function DashboardPage() {
 
     return (
         <div className="space-y-6">
-            <StatsCards stats={stats} />
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                <div className="lg:col-span-3">
+                    <StatsCards stats={stats} />
+                </div>
+                <div className="lg:col-span-1">
+                    <LiveBitcoinPrice />
+                </div>
+            </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <EquityChart />
@@ -108,19 +117,22 @@ export default function DashboardPage() {
                 {/* Quick Actions */}
                 <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
                     <h3 className="text-lg font-bold text-white mb-4">Quick Actions</h3>
-                    <div className="grid grid-cols-2 gap-3">
-                        <button className="p-3 bg-brand-blue/10 hover:bg-brand-blue/20 border border-brand-blue/30 rounded-lg text-brand-blue font-medium text-sm transition-colors text-center">
-                            + Log Trade
-                        </button>
-                        <button className="p-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-slate-300 font-medium text-sm transition-colors text-center">
-                            New Journal
-                        </button>
-                        <button className="p-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-slate-300 font-medium text-sm transition-colors text-center">
-                            Set Alert
-                        </button>
-                        <button className="p-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-slate-300 font-medium text-sm transition-colors text-center">
-                            Calculator
-                        </button>
+                    <div className="space-y-3">
+                        <BrokerConnectModal />
+                        <div className="grid grid-cols-2 gap-3">
+                            <button className="p-3 bg-brand-blue/10 hover:bg-brand-blue/20 border border-brand-blue/30 rounded-lg text-brand-blue font-medium text-sm transition-colors text-center">
+                                + Log Trade
+                            </button>
+                            <button className="p-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-slate-300 font-medium text-sm transition-colors text-center">
+                                New Journal
+                            </button>
+                            <button className="p-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-slate-300 font-medium text-sm transition-colors text-center">
+                                Set Alert
+                            </button>
+                            <button className="p-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-slate-300 font-medium text-sm transition-colors text-center">
+                                Calculator
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
